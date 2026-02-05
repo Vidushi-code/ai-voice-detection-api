@@ -37,7 +37,7 @@ ENV/
 .env
 
 # Model Files (large files - include via Git LFS or download separately)
-*.pkl
+#*.pkl
 *.h5
 *.pth
 *.onnx

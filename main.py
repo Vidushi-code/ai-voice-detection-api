@@ -121,7 +121,13 @@ app.add_middleware(
 
 # Include API routes
 app.include_router(router, tags=["Voice Detection"])
+@app.get("/")
+def root():
+    return {"status": "AI Voice Detection API running"}
 
+@app.get("/health")
+def health():
+    return {"status": "healthy"}
 
 # Global exception handler
 @app.exception_handler(Exception)

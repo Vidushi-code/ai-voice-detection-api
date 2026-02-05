@@ -42,20 +42,25 @@ async def lifespan(app: FastAPI):
     
     # Check if model exists
     if not os.path.exists(MODEL_PATH):
-        print(f"\n❌ ERROR: Model file not found at {MODEL_PATH}")
-        print("\nPlease train the model first:")
+        print(f"\n⚠️  WARNING: Model file not found at {MODEL_PATH}")
+        print("\nServer will start, but predictions will fail until model is uploaded.")
+        print("\nTo train model locally:")
         print("  python train.py")
-        print("\nOr download a pre-trained model to model/voice_model.pkl")
-        sys.exit(1)
-    
-    # Load model
-    print(f"\nLoading model from: {MODEL_PATH}")
-    try:
-        api_module.inference_engine = InferenceEngine(MODEL_PATH)
-        print("✓ Model loaded successfully")
-    except Exception as e:
-        print(f"\n❌ ERROR: Failed to load model: {e}")
-        sys.exit(1)
+        print("\nFor Railway deployment:")
+        print("  1. Train locally: python train.py")
+        print("  2. Upload model/voice_model.pkl to your repo")
+        print("  3. Git commit and push")
+        api_module.inference_engine = None
+    else:
+        # Load model
+        print(f"\nLoading model from: {MODEL_PATH}")
+        try:
+            api_module.inference_engine = InferenceEngine(MODEL_PATH)
+            print("✓ Model loaded successfully")
+        except Exception as e:
+            print(f"\n⚠️  WARNING: Failed to load model: {e}")
+            print("Server will start without model. Predictions will fail.")
+            api_module.inference_engine = None
     
     print("\n" + "=" * 60)
     print("SERVER READY")

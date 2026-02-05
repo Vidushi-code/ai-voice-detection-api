@@ -110,7 +110,11 @@ def get_inference_engine() -> InferenceEngine:
     if inference_engine is None:
         raise HTTPException(
             status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
-            detail="Model not loaded. Server is starting up."
+            detail={
+                "error": "ModelNotLoaded",
+                "message": "ML model not found. Train and upload model file to enable predictions.",
+                "instructions": "1. Train locally: python train.py | 2. Upload model/voice_model.pkl to repository | 3. Redeploy"
+            }
         )
     return inference_engine
 
@@ -136,10 +140,12 @@ async def root():
 async def health_check():
     """
     Health check endpoint for monitoring and load balancers.
+    Always returns 200 OK, but indicates if model is loaded.
     """
+    model_loaded = inference_engine is not None
     return {
-        "status": "healthy" if inference_engine is not None else "starting",
-        "model_loaded": inference_engine is not None,
+        "status": "healthy" if model_loaded else "degraded",
+        "model_loaded": model_loaded,
         "version": "1.0.0"
     }
 

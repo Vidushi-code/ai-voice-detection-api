@@ -1,5 +1,6 @@
 # 🎙️ AI Voice Detection & Fraud Prevention API
 
+[![Live Demo](https://img.shields.io/badge/Live-Demo-green?style=for-the-badge)](https://huggingface.co/spaces/vidushi-agarwal/ai-voice-detection-api)
 [![Python](https://img.shields.io/badge/Python-3.8%2B-blue)](https://www.python.org/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.104-green)](https://fastapi.tiangolo.com/)
 [![ML](https://img.shields.io/badge/ML-Scikit--learn-orange)](https://scikit-learn.org/)
